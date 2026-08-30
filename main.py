@@ -1,6 +1,8 @@
 from produto import *
 from carrinho_compras import *
+from cliente import *
 import time
+clientes = []
 c1 = CarrinhoDeCompras()
 
 def menu_produto():                  
@@ -51,6 +53,97 @@ Escolha uma opção: """))
             case 0:
                 print("Saindo do programa...")
                 exit()
+
+def menu_cliente():
+    opcao_cliente = int(input("""
+╔════════════════════════════════╗
+║        MENU DE USUÁRIO         ║
+╠════════════════════════════════╣
+║  1 - Novo cliente              ║
+║  2 - Ver clientes              ║
+║  3 - Adicionar cupom           ║
+║  4 - Voltar                    ║
+║  0 - Sair do programa          ║
+╚════════════════════════════════╝
+Escolha uma opção: """))
+
+    match opcao_cliente:
+
+        case 1:
+            try:
+                nome = input("Digite o nome do cliente: ")
+                email = input("Digite o e-mail do cliente: ")
+                cpf = input("Digite o CPF (999.999.999-99): ")
+
+                cliente = Cliente(nome, email, cpf)
+
+                clientes.append(cliente)
+
+                print("\nCliente cadastrado com sucesso!!!")
+
+            except ValueError as erro:
+                print(f"\nErro ao cadastrar cliente: {erro}")
+
+            input("\nPressione ENTER para continuar...")
+            menu_cliente()
+
+        case 2:
+            if not clientes:
+                print("Nenhum cliente cadastrado.")
+            else:
+                for cliente in clientes:
+                    print(cliente)
+                    print(
+                        f"Saldo em cupons: "
+                        f"R$ {cliente.get_saldo_cupom():.2f}"
+                    )
+
+            input("\nPressione ENTER para continuar...")
+            menu_cliente()
+
+        case 3:
+            if not clientes:
+                print("\nNenhum cliente cadastrado.")
+                menu_cliente()
+                return
+
+            for indice, cliente in enumerate(clientes, start=1):
+                print(f"{indice} - {cliente.nome}")
+
+            try:
+                escolha = int(input("Escolha o cliente: "))
+
+                if escolha < 1 or escolha > len(clientes):
+                    print("Cliente inválido.")
+                    menu_cliente()
+                    return
+
+                cliente = clientes[escolha - 1]
+
+                valor = float(
+                    input("Digite o valor do cupom: R$ ").replace(",", ".")
+                )
+
+                cliente.adicionar_cupom(valor)
+
+                print("\nCupom adicionado com sucesso!!!")
+                print(
+                    f"Saldo atual de cupons: "
+                    f"R$ {cliente.get_saldo_cupom():.2f}"
+                )
+
+            except ValueError as erro:
+                print(f"\nErro: {erro}")
+                
+            input("\nPressione ENTER para continuar...")
+            menu_cliente()
+
+        case 4:
+            menu_inicial()
+
+        case 0:
+            print("Saindo do programa...")
+            exit()
 
 def menu_carrinho():
         opcao_carrinho = int(input("""
@@ -115,7 +208,7 @@ Escolha uma opção: """))
                 menu_produto()
 
             case 2:
-                menu_carrinho()
+                menu_cliente()
 
             case 3:
                 menu_carrinho()
