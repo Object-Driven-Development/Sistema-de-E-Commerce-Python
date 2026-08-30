@@ -1,0 +1,11 @@
+  
+    @property
+    def quantidadezinha(self):
+        return self.__quantidade
+
+    @quantidadezinha.setter
+    def quantidadezinha(self, valor):
+        if valor >= 0:
+            self.__quantidade = valor
+        else:
+            raise ValueError('Quantidade não pode ser negativa!')
