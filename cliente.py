@@ -84,11 +84,11 @@ class Cliente:
             raise ValueError("CPF inválido.")
 
         self.__cpf = f"{digitos[:3]}.{digitos[3:6]}.{digitos[6:9]}-{digitos[9:]}"
-
-    def get_saldo_cupom(self):
+    @property
+    def saldo_cupom(self):
         return self.__saldo_cupom
-
-    def adicionar_cupom(self, valor):
+    @saldo_cupom.setter
+    def saldo_cupom(self, valor):
         if valor <= 0:
             raise ValueError("O valor do cupom deve ser maior que zero.")
 

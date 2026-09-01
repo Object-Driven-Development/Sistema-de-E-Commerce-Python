@@ -2,9 +2,9 @@ import time
 produtos =[]
 
 def CriarProduto():
-    nome = input("Digite aqui o nome do seu produto")
-    preco = float(input("Digite aqui o valor do seu produto!"))
-    categoria = input("digite aqui a categoria do seu produto")
+    nome = input("Digite aqui o nome do seu produto: \n")
+    preco = float(input("Digite aqui o valor do seu produto: \n"))
+    categoria = input("digite aqui a categoria do seu produto: \n")
 
     try:
         produto = Produto(nome, preco, categoria)
@@ -19,7 +19,7 @@ def CriarProduto():
 def RemoverProduto(nome: str):
     for produto in produtos:
         if nome == produto.nome:
-            print(f"O Produto : {produto.nome} foi removido com sucesso!!! ")
+            print(f"O Produto : {produto.nome} foi removido com sucesso!")
             produtos.remove(produto)
         else:
             print("Produto não encontrado")
@@ -45,8 +45,6 @@ class Produto:
 
     @property
     def preco(self):
-        #resposta = f'R$ {self._preco:.2f}'
-        #return resposta
         return self.__preco
     
     @preco.setter
@@ -56,16 +54,5 @@ class Produto:
         else:
             raise ValueError ('Preço não pode ser negativo')    
 
-
-
-def main():
-    # Vamos instanciar a classe Produto, isto é, vamos criar
-    # um objeto do tipo Produto.
-    #produtos.append(Produto('iPhone 17', 5000.00, 'Roupas'))
-    #produtos.append(Produto('MackBook', 5000.00, 'Eletronico'))
-    CriarProduto()
-    for produto in produtos:
-        print(produto)
-
 if __name__ == '__main__':
-    main()
+    main
