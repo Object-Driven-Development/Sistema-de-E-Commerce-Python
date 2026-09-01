@@ -41,12 +41,10 @@ class Cliente:
         if not isinstance(valor, str):
             raise ValueError("O CPF deve ser informado como texto.")
 
-        if not re.fullmatch(r"\d{3}\.\d{3}\.\d{3}-\d{2}", valor):
-            raise ValueError(
-                "CPF inválido. Utilize o formato 999.999.999-99."
-            )
+        digitos = re.sub(r'\D', '', str(valor))
 
-        digitos = valor.replace(".", "").replace("-", "")
+        if len(digitos) != 11:
+            raise ValueError("CPF inválido. Certifique-se de digitar os 11 números.")
 
         if len(set(digitos)) == 1:
             raise ValueError("CPF inválido.")
@@ -85,7 +83,7 @@ class Cliente:
         if dv2 != int(digitos[10]):
             raise ValueError("CPF inválido.")
 
-        self.__cpf = valor
+        self.__cpf = f"{digitos[:3]}.{digitos[3:6]}.{digitos[6:9]}-{digitos[9:]}"
 
     def get_saldo_cupom(self):
         return self.__saldo_cupom
