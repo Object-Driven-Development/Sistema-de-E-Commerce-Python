@@ -10,7 +10,8 @@ def CriarProduto():
         produto = Produto(nome, preco, categoria)
         produtos.append(produto)
         time.sleep(1)
-        print(f'{produto}\n')
+        print(f'{produto}')
+        print(f'{repr(produto)}\n')
         print("Produto criado!!!")
         
     except ValueError as erro:

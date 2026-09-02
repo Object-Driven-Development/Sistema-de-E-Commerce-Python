@@ -58,7 +58,7 @@ class CarrinhoDeCompras:
     
     def utilizar_cupom(self):
         if self.saldo_cupom > 0:    
-            resposta = input(f"Deseja utilizar o saldo no valor de R$: {self.saldo_cupom}:.2f")
+            resposta = input(f"Deseja utilizar o saldo no valor de R$: {self.saldo_cupom:.2f}\n")
             if resposta.upper() == 'S':
                 self.usar_cupom = True
 

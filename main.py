@@ -2,8 +2,55 @@ from produto import *
 from carrinho_compras import *
 from cliente import *
 import time
+import traceback
 clientes = []
+def menu_testes():
+    opcao_testes = int(input("""
+╔════════════════════════════════════╗
+║       TESTE DE ATRIBUTOS           ║
+╠════════════════════════════════════╣
+║  1 - Acessar atributo privado      ║
+║  2 - Acessar atributo protegido    ║
+║  3 - Voltar                        ║
+║  0 - Sair do programa              ║
+╚════════════════════════════════════╝
+Escolha uma opção: """))
+    match opcao_testes:
 
+        case 1:
+            for cliente in clientes:
+                print(cliente)
+            escolha = input("Escolha um cliente para dar continuidade ao teste: \n")  
+            print("Atenção: este teste tenta acessar o atributo privado __cpf do cliente selecionado, o que gera um erro de acesso ao atributo.")
+            time.sleep(1)
+            for cliente in clientes:
+                if escolha == cliente.nome:
+                    try:
+                        print(cliente.__cpf) 
+                    except AttributeError:
+                        print("\n EROO AO ACESSAR ATRIBUTO PRIVADO!") 
+                        traceback.print_exc()  
+                        input("\nPressione ENTER para continuar...")
+                        menu_testes()
+        case 2:
+            for produto in produtos:
+                print(produto)  
+            escolha = input("Escolha um produto para dar continuidade ao teste: \n") 
+            print("Atenção: este teste acessa o atributo protegido _categoria do produto.")
+            print("O acesso funciona porque o _ não impede o acesso ao atributo, apenas indica que ele deve ser usado internamente na classe ou em suas subclasses.")
+            time.sleep(1)  
+            for produto in produtos:
+                if escolha == produto.nome:
+                    try:
+                        print(produto._categoria) 
+                    except AttributeError:
+                        print("Nao foi possivel acessar o atributo protegido _categoria.")
+                        traceback.print_exc()
+            input("\nPressione ENTER para continuar...")
+            menu_testes()
+
+
+                         
 def menu_produto():                  
         opcao_produto = int(input("""
 ╔════════════════════════════════╗
@@ -28,6 +75,7 @@ Escolha uma opção: """))
             case 2:
                 for produto in produtos:
                     print(produto)
+                    print(f"{repr(produto)}")
                 resposta = 'S'    
                 while resposta == 'S':     
                     n = input("Escolha o nome do  produto que deseja remover!!! \n").lower()  
@@ -39,6 +87,7 @@ Escolha uma opção: """))
             case 3:
                 for produto in produtos:
                     print(produto)
+                    print(f"{repr(produto)}")
                 resposta = int(input("Digite 0 para voltar ao menu!!! \n"))
                 if resposta == 0:
                     menu_produto()
@@ -93,10 +142,11 @@ Escolha uma opção: """))
             else:
                 for cliente in clientes:
                     print(cliente)
+                    print(f"{repr(cliente)}")
                     print(
                         f"Saldo em cupons: "
                         f"R$ {cliente.saldo_cupom}"
-                    )
+                        )
 
             input("\nPressione ENTER para continuar...")
             menu_cliente()
@@ -109,7 +159,6 @@ Escolha uma opção: """))
 
             for indice, cliente in enumerate(clientes, start=1):
                 print(f"{indice} - {cliente.nome}")
-
             try:
                 escolha = int(input("Escolha o cliente: "))
 
@@ -187,6 +236,8 @@ Escolha uma opção: """))
                 print(c1)
                 c1.utilizar_cupom()
                 print(c1)
+                c1.saldo_cupom = 0
+                c1.usar_cupom = False
                 resposta = int(input("Digite 0 para voltar ao menu!!! \n"))
                 if resposta == 0:
         	        menu_carrinho(c1)
@@ -205,6 +256,7 @@ def menu_inicial():
 ║  1 - Produto                   ║
 ║  2 - Cliente                   ║
 ║  3 - Carrinho                  ║
+║  4 - Testes                    ║
 ║  0 - Sair                      ║
 ╚════════════════════════════════╝
 Escolha uma opção: """))
@@ -220,7 +272,8 @@ Escolha uma opção: """))
                 while True:
                     for cliente in clientes:
                         print(cliente)
-                    clte = input("Escolha um Clinte para continuar!! \n")
+                        print(f"{repr(cliente)}")
+                    clte = input("Escolha um Cliente para continuar!! \n")
                     cliente_encontrado = False
                     for cliente in clientes:
                         if clte == cliente.nome:  
@@ -233,7 +286,8 @@ Escolha uma opção: """))
                     else:
                         print("Cliente não cadastrado!!! ")              
                 menu_carrinho(c1)
-
+            case 4:
+                menu_testes()
             case 0:
                 resposta = input("Tem certeza que deseja encerrar? (S/N) \n")
                 while resposta == 'S':
